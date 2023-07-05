@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".WelcomePage">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome to Tasking"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="20dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="If you are a new user please create an account but if you already have an account kindly login with your details"
+        android:textStyle="normal"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="20dp"
+        />
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginTop="100dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/image8"
+        android:scaleType="centerCrop" />
+    <Button
+        android:id="@+id/goToSignUp"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Create Account"
+        android:textColor="@color/white"
+        android:layout_marginHorizontal="20dp"
+        android:paddingVertical="10dp"
+        android:background="@drawable/btndesign"
+        />
+    <Button
+        android:id="@+id/goToLogIn"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Log In"
+        android:textColor="@color/white"
+        android:layout_marginHorizontal="20dp"
+        android:paddingVertical="10dp"
+        android:background="@drawable/btndesign"
+        />
+
+
+</LinearLayout>
