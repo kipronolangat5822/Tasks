@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.airtime.Adapters.SlideshowAdapter;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class SlideshowActivity extends AppCompatActivity {
 
@@ -29,6 +30,16 @@ public class SlideshowActivity extends AppCompatActivity {
         slideshowAdapter = new SlideshowAdapter(this);
         viewPager.setAdapter(slideshowAdapter);
         nextButton = findViewById(R.id.nextButton);
+        FirebaseAuth mAuth=FirebaseAuth.getInstance();
+        if (mAuth.getCurrentUser()!=null){
+            String emm=mAuth.getCurrentUser().getEmail();
+
+            Intent intent=new Intent(SlideshowActivity.this, Tasks.class);
+            startActivity(intent);
+            finish();
+
+
+        }
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override

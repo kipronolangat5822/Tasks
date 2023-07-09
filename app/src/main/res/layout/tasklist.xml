@@ -13,7 +13,7 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -31,6 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Team members"
+                android:layout_marginTop="5dp"
                 android:textSize="16sp" />
 
             <LinearLayout
@@ -40,33 +41,33 @@
 
                 <ImageView
                     android:id="@+id/image_icon1"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/image1"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/avatar"
                     android:layout_marginEnd="8dp" />
 
                 <ImageView
                     android:id="@+id/image_icon2"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/image2"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/avatar1"
                     android:layout_marginEnd="8dp" />
 
                 <ImageView
                     android:id="@+id/image_icon3"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/image3" />
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/avatar2" />
 
             </LinearLayout>
 
         </LinearLayout>
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/image_right"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@drawable/image5" />
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:src="@drawable/image7" />
 
     </LinearLayout>
 

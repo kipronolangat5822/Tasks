@@ -87,63 +87,32 @@ public class SignupActivity extends AppCompatActivity {
                     mAuth.createUserWithEmailAndPassword(emailaddress, passwords).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-
                             if (task.isSuccessful()) {
-                                String uuid = FirebaseAuth.getInstance().getCurrentUser()
-                                        .getUid();
+                                String uuid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                                 User user = new User(username, emailaddress, phoneNumber, uuid);
 
-                                FirebaseDatabase.getInstance().getReference("users").child(phoneNumber)
+                                FirebaseDatabase.getInstance().getReference("users").child(uuid)
                                         .setValue(user)
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
-                                                sendOtp();
-                                                sendOTPMessage("0705719262","2000");
-                                                Intent intent
-                                                        = new Intent(getApplicationContext(),
-                                                        LoginActivity.class);
+                                                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                                                 startActivity(intent);
                                                 finish();
                                             }
                                         });
-
                             } else {
                                 String message = task.getException().toString();
-                                Toast.makeText(
-                                                getApplicationContext(),
-                                                "Registration failed!!"
-                                                        + " Please try again later" + message,
-                                                Toast.LENGTH_LONG)
-                                        .show();
-
+                                Toast.makeText(getApplicationContext(), "Registration failed!! Please try again later" + message, Toast.LENGTH_LONG).show();
                             }
-
                         }
                     });
+
                 }
             }
         });
     }
 
-    private void sendOtp() {
-
-    }
-
-        private static final int SMS_REQUEST_CODE = 101;
-
-
-        private void sendOTPMessage(String phoneNumber, String message) {
-            SmsManager smsManager = SmsManager.getDefault();
-
-            PendingIntent sentPendingIntent = PendingIntent.getBroadcast(
-                    this,
-                    SMS_REQUEST_CODE,
-                    new Intent("SMS_SENT"),
-                    0
-            );
-            smsManager.sendTextMessage(phoneNumber, null, message, sentPendingIntent, null);
-        }
     }
 
 

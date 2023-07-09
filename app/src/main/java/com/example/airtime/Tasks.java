@@ -1,11 +1,19 @@
 package com.example.airtime;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,11 +21,14 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.NotificationCompat;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -29,16 +40,16 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class Tasks extends AppCompatActivity {
     EditText title, description;
     CardView finance, others, inquire, admin, tech;
     Button btn, st, en;
     TextView tt;
-    ImageView upload;
-    Uri imageuri = null;
     ImageView back, q, w, e, r, t;
     DatabaseReference reference, re;
     StringBuilder sb;
@@ -47,8 +58,11 @@ public class Tasks extends AppCompatActivity {
     String id;
     FirebaseAuth mAuth;
     AlertDialog.Builder builds;
-    TextView uploads,textupload;
-    String myurl,filename;
+    ProgressDialog loading;
+    private static final String CHANNEL_ID = "task_channel";
+    private static final int NOTIFICATION_ID = 1;
+    private NotificationManager notificationManager;
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -59,7 +73,6 @@ public class Tasks extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 id = snapshot.getValue(String.class);
-
             }
 
             @Override
@@ -92,12 +105,13 @@ public class Tasks extends AppCompatActivity {
         en = findViewById(R.id.l_end);
         st = findViewById(R.id.l_start);
         sb = new StringBuilder(n);
+        loading=new ProgressDialog(this);
 
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Tasks.this, MainActivity.class);
+                Intent intent = new Intent(Tasks.this, TaskDashBoard.class);
                 startActivity(intent);
             }
         });
@@ -106,24 +120,54 @@ public class Tasks extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Calendar c = Calendar.getInstance();
-                new DatePickerDialog(Tasks.this, new DatePickerDialog.OnDateSetListener() {
+                int currentYear = c.get(Calendar.YEAR);
+                int currentMonth = c.get(Calendar.MONTH);
+                int currentDay = c.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(Tasks.this, new DatePickerDialog.OnDateSetListener() {
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        Tasks.this.st.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                        TimePickerDialog timePickerDialog = new TimePickerDialog(Tasks.this, new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
+                                String selectedDateTime = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year + " " + hourOfDay + ":" + minute;
+                                Tasks.this.st.setText(selectedDateTime);
+                            }
+                        }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), false);
+
+                        timePickerDialog.show();
                     }
-                }, c.get(1), c.get(2), c.get(5)).show();
+                }, currentYear, currentMonth, currentDay);
+
+                datePickerDialog.show();
             }
         });
+
         en.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Calendar c = Calendar.getInstance();
-                new DatePickerDialog(Tasks.this, new DatePickerDialog.OnDateSetListener() {
+                int currentYear = c.get(Calendar.YEAR);
+                int currentMonth = c.get(Calendar.MONTH);
+                int currentDay = c.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(Tasks.this, new DatePickerDialog.OnDateSetListener() {
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        Tasks.this.en.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                        TimePickerDialog timePickerDialog = new TimePickerDialog(Tasks.this, new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
+                                String selectedDateTime = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year + " " + hourOfDay + ":" + minute;
+                                Tasks.this.en.setText(selectedDateTime);
+                            }
+                        }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), false);
+
+                        timePickerDialog.show();
                     }
-                }, c.get(1), c.get(2), c.get(5)).show();
+                }, currentYear, currentMonth, currentDay);
+
+                datePickerDialog.show();
             }
         });
+
 
         this.builds = new AlertDialog.Builder(this);
         this.builds.setMessage("Tasks").setTitle("Checking Dates");
@@ -139,7 +183,7 @@ public class Tasks extends AppCompatActivity {
         finance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tt.setText("finance");
+                tt.setText("all");
                 q.setVisibility(View.VISIBLE);
                 w.setVisibility(View.GONE);
                 e.setVisibility(View.GONE);
@@ -150,7 +194,7 @@ public class Tasks extends AppCompatActivity {
         others.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tt.setText("work");
+                tt.setText("sports");
                 q.setVisibility(View.GONE);
                 w.setVisibility(View.GONE);
                 e.setVisibility(View.GONE);
@@ -161,7 +205,7 @@ public class Tasks extends AppCompatActivity {
         inquire.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tt.setText("finance");
+                tt.setText("education");
                 q.setVisibility(View.GONE);
                 w.setVisibility(View.VISIBLE);
                 e.setVisibility(View.GONE);
@@ -172,7 +216,7 @@ public class Tasks extends AppCompatActivity {
         tech.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tt.setText("education");
+                tt.setText("meetings");
                 q.setVisibility(View.GONE);
                 w.setVisibility(View.GONE);
                 e.setVisibility(View.GONE);
@@ -183,7 +227,7 @@ public class Tasks extends AppCompatActivity {
         admin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tt.setText("social");
+                tt.setText("design");
                 q.setVisibility(View.GONE);
                 w.setVisibility(View.GONE);
                 e.setVisibility(View.VISIBLE);
@@ -219,8 +263,9 @@ public class Tasks extends AppCompatActivity {
     }
 
     private void createTask() throws ParseException {
-
-
+        loading.setTitle("Create Task");
+        loading.setMessage("Creating tasks");
+        loading.setCanceledOnTouchOutside(true);
         String tasktitle = title.getText().toString().trim();
         String taskdesc = description.getText().toString().trim();
         String category = tt.getText().toString().trim();
@@ -228,12 +273,10 @@ public class Tasks extends AppCompatActivity {
         String end = en.getText().toString();
         EditText nn = findViewById(R.id.s_description);
         String s_description = nn.getText().toString().trim();
-        Date dat = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy,HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy H:mm");
         String date = String.valueOf(System.currentTimeMillis());
 
         String taskId = sb.toString();
-        SimpleDateFormat sdff = new SimpleDateFormat("dd-MM-yyyy");
         Date strDate = sdf.parse(start);
         Date endDate = sdf.parse(end);
 
@@ -259,74 +302,59 @@ public class Tasks extends AppCompatActivity {
                 month = LocalDate.now().getMonth().toString();
                 dateno = String.valueOf(LocalDate.now().getDayOfMonth());
             }
+            loading.show();
             String assign = "unassigned";
             String status = "unassigned";
-            String userid=mAuth.getCurrentUser().getUid();
-            TaskModel model = new TaskModel(tasktitle, taskdesc, category, start, end, date, taskId, s_description, assign,myurl,status,userid);
+            List<String> memberurl=new ArrayList<>();
+            memberurl.add("kkkkkkkk");
+            String userid = mAuth.getCurrentUser().getUid();
+            TaskModel model = new TaskModel(tasktitle, taskdesc, category, start, end, date, taskId, s_description, assign, status, userid,memberurl);
             reference.child(taskId).setValue(model).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull com.google.android.gms.tasks.Task<Void> task) {
+                    if (task.isSuccessful()){
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference("usertask").child(mAuth.getCurrentUser().getUid()).child(taskId);
                     ref.setValue(model);
                     Toast.makeText(Tasks.this, "Task created successfully", Toast.LENGTH_SHORT).show();
-
-                    re.child(taskId).setValue(model);
-                    Intent intent = new Intent(Tasks.this, MainActivity.class);
+                        setTaskReminder(endDate, taskId);
+                    loading.dismiss();
+                    Intent intent = new Intent(Tasks.this, TaskDashBoard.class);
                     startActivity(intent);
                     finish();
+                }
+                    else
+                    {
+                        loading.dismiss();
+                    }
                 }
             });
         }
 
     }
-    ProgressDialog dialog;
-  /*  @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
 
-            // Here we are initialising the progress dialog box
-            dialog = new ProgressDialog(this);
-            dialog.setMessage("Uploading");
+    private void setTaskReminder(Date endDate, String taskId) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(endDate);
 
-            // this will show message uploading
-            // while pdf is uploading
-            dialog.show();
-            imageuri = data.getData();
-            final String timestamp = "" + System.currentTimeMillis();
-            StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-            final String messagePushID = timestamp;
+        // Create an intent for the reminder
+        Intent alarmIntent = new Intent(this, TaskReminderReceiver.class);
+        alarmIntent.putExtra("task_id", taskId);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+        // Get the AlarmManager service
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
-            // Here we are uploading the pdf in firebase storage with the name of current time
-            final StorageReference filepath = storageReference.child(messagePushID + "." + "pdf");
-            filepath.putFile(imageuri).continueWithTask(new Continuation() {
-                @Override
-                public Object then(@NonNull com.google.android.gms.tasks.Task task) throws Exception {
-                    if (!task.isSuccessful()) {
-                        throw task.getException();
-                    }
-                    return filepath.getDownloadUrl();
-                }
-            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                @Override
-                public void onComplete(@NonNull com.google.android.gms.tasks.Task<Uri> task) {
-                    if (task.isSuccessful()) {
-                        // After uploading is done it progress
-                        // dialog box will be dismissed
-                        dialog.dismiss();
-                        Uri uri = task.getResult();
-                        filename = uri.getLastPathSegment();
-                        myurl = uri.toString();
-                        textupload.setVisibility(View.VISIBLE);
-                        textupload.setText(filename);
-                        uploads.setText("File Uploaded");
-                    } else {
-                        dialog.dismiss();
-                        Toast.makeText(Task.this, "UploadedFailed", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
+        // Set the reminder
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // Use setExactAndAllowWhileIdle for Android Marshmallow (API 23) and above
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            // Use setExact for Android KitKat (API 19) and above
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        } else {
+            // Use set for older Android versions
+            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
         }
-    }*/
+    }
+
 }

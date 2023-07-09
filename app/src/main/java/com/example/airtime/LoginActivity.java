@@ -56,7 +56,15 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
+        if (mAuth.getCurrentUser()!=null){
+            String emm=mAuth.getCurrentUser().getEmail();
 
+            Intent intent=new Intent(LoginActivity.this, Tasks.class);
+            startActivity(intent);
+            finish();
+
+
+        }
 
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
