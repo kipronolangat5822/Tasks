@@ -13,10 +13,9 @@ public class NotificationMessage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       /* setContentView(R.layout.activity_notification_message);
-        textView = findViewById(R.id.tv_message);
+        setContentView(R.layout.activity_all_tasks);
         Bundle bundle = getIntent().getExtras();
-        textView.setText(bundle.getString("message"));*/
+        textView.setText(bundle.getString("message"));
 
     }
 }
