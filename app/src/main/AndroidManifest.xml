@@ -117,7 +117,7 @@
                 android:value="" />
         </activity>
 
-        <receiver android:name=".AlarmBroadcast" />
+     <!--   <receiver android:name=".AlarmBroadcast" />-->
     </application>
 
 </manifest>
