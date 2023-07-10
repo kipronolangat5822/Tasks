@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingHorizontal="20dp"
     tools:context=".TaskDashBoard">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingHorizontal="20dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -80,7 +83,7 @@
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:layout_gravity="center"
-                android:text="10" />
+                android:text="0" />
 
         </LinearLayout>
 
@@ -108,7 +111,7 @@
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:layout_gravity="center"
-                android:text="20" />
+                android:text="0" />
 
         </LinearLayout>
 
@@ -134,7 +137,7 @@
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:layout_gravity="center"
-                android:text="30" />
+                android:text="0" />
 
         </LinearLayout>
 
@@ -171,5 +174,19 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp" />
 
+    </LinearLayout>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
+        android:background="@color/colorRed"
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/next" />
 
-</LinearLayout>
+</RelativeLayout>

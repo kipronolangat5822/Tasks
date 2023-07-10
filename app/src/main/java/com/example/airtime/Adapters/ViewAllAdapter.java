@@ -135,7 +135,6 @@ public class ViewAllAdapter extends RecyclerView.Adapter<ViewAllAdapter.MyViewHo
             holder.mmonth.setText(bb);
             holder.mhrs.setText(model.getStartdate());
             holder.mmins.setText(model.getTaskId());
-            holder.msecs.setText(model.getAssigned_to());
             DatabaseReference referencesfgf =  FirebaseDatabase.getInstance().getReference("alltasks").child(model.getTaskId());
             referencesfgf.child("status").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override

@@ -34,7 +34,7 @@ public class TaskDashBoard extends AppCompatActivity {
     ProgressDialog loading;
     Query references;
     FirebaseAuth mAuth;
-    TextView hello;
+    TextView hello,complete,progress,overdue;
 
 
     @Override
@@ -45,6 +45,9 @@ public class TaskDashBoard extends AppCompatActivity {
         loading = new ProgressDialog(this);
         mAuth = FirebaseAuth.getInstance();
         hello=findViewById(R.id.text_name);
+        complete=findViewById(R.id.text_card1_number);
+        progress=findViewById(R.id.text_card2_number);
+        overdue=findViewById(R.id.text_card3_number);
         String uuid=mAuth.getCurrentUser().getUid();
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(uuid);
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -108,7 +111,7 @@ public class TaskDashBoard extends AppCompatActivity {
                 Toast.makeText(TaskDashBoard.this, "Error", Toast.LENGTH_SHORT).show();
             }
         });
-       /* ((BottomNavigationView) findViewById(R.id.navigation)).setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        ((BottomNavigationView) findViewById(R.id.navigation)).setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             public boolean onNavigationItemSelected(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_profile:
@@ -116,7 +119,7 @@ public class TaskDashBoard extends AppCompatActivity {
                         finish();
                         return false;
                     case R.id.action_home:
-                        startActivity(new Intent(getApplicationContext(), UserDashboard.class));
+                        startActivity(new Intent(getApplicationContext(), AllTasks.class));
                         finish();
                         return false;
                     case R.id.settings:
@@ -124,13 +127,13 @@ public class TaskDashBoard extends AppCompatActivity {
                         finish();
                         return false;
                     case R.id.task:
-                        startActivity(new Intent(getApplicationContext(), Task.class));
+                        startActivity(new Intent(getApplicationContext(), Tasks.class));
                         finish();
                         return false;
                     default:
                         return false;
                 }
             }
-        });*/
+        });
     }
 }

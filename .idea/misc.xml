@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/User/StudioProjects/Tasking/app/src/main/res/layout/activity_reminder.xml" value="0.21574074074074073" />
+        <entry key="..\:/Users/User/StudioProjects/Tasking/app/src/main/res/layout/activity_task_dash_board.xml" value="0.21574074074074073" />
+        <entry key="..\:/Users/User/StudioProjects/Tasking/app/src/main/res/layout/notification_layout.xml" value="0.21574074074074073" />
+        <entry key="..\:/Users/User/StudioProjects/Tasking/app/src/main/res/layout/tasklist.xml" value="0.25416666666666665" />
+      </map>
+    </option>
+  </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />

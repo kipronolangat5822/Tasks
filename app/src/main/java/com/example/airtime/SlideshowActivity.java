@@ -34,7 +34,7 @@ public class SlideshowActivity extends AppCompatActivity {
         if (mAuth.getCurrentUser()!=null){
             String emm=mAuth.getCurrentUser().getEmail();
 
-            Intent intent=new Intent(SlideshowActivity.this, Tasks.class);
+            Intent intent=new Intent(SlideshowActivity.this, TaskDashBoard.class);
             startActivity(intent);
             finish();
 

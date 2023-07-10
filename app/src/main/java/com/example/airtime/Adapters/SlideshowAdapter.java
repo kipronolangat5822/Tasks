@@ -62,7 +62,7 @@ public class SlideshowAdapter extends PagerAdapter {
         skipping.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(context.getApplicationContext(), ProfileActivity.class);
+                Intent intent=new Intent(context.getApplicationContext(), TaskDashBoard.class);
                 context.startActivity(intent);
             }
         });
