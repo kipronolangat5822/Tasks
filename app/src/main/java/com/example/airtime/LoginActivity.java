@@ -59,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
         if (mAuth.getCurrentUser()!=null){
             String emm=mAuth.getCurrentUser().getEmail();
 
-            Intent intent=new Intent(LoginActivity.this, Tasks.class);
+            Intent intent=new Intent(LoginActivity.this, AllTasks.class);
             startActivity(intent);
             finish();
 
@@ -94,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
                         loading.dismiss();
-                        Intent intent = new Intent(LoginActivity.this, Tasks.class);
+                        Intent intent = new Intent(LoginActivity.this, AllTasks.class);
                         startActivity(intent);
                         finish();
                     } else {

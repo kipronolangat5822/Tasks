@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.airtime.R;
 import com.example.airtime.TaskDashBoard;
 import com.example.airtime.TaskModel;
+import com.example.airtime.ViewDetailsActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -135,30 +136,6 @@ public class ViewAllAdapter extends RecyclerView.Adapter<ViewAllAdapter.MyViewHo
             holder.mmonth.setText(bb);
             holder.mhrs.setText(model.getStartdate());
             holder.mmins.setText(model.getTaskId());
-            holder.msecs.setText(model.getAssigned_to());
-            DatabaseReference referencesfgf =  FirebaseDatabase.getInstance().getReference("alltasks").child(model.getTaskId());
-            referencesfgf.child("status").addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    subjects=snapshot.getValue(String.class);
-                    if (subjects.equalsIgnoreCase("unassigned")){
-                        holder.assign.setText("Assign");
-                    }
-                    else {
-                        holder.assigned.setVisibility(View.VISIBLE);
-                        holder.assign.setVisibility(View.GONE);
-                        holder.show.setText("Assigned To id no ");
-
-
-                    }
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
             holder.assign.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -173,10 +150,18 @@ public class ViewAllAdapter extends RecyclerView.Adapter<ViewAllAdapter.MyViewHo
                     context.startActivity(intent);
                 }
             });
-            holder.assigned.setOnClickListener(new View.OnClickListener() {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
-                    Toast.makeText(context, "Task already assigned", Toast.LENGTH_SHORT).show();
+                public void onClick(View v) {
+                    Intent intent=new Intent(context.getApplicationContext(), ViewDetailsActivity.class);
+                    intent.putExtra("id",model.getTaskId());
+                    intent.putExtra("dep",model.getDepartment());
+                    intent.putExtra("desc",model.getDescription());
+                    intent.putExtra("name",model.getTitle());
+                    intent.putExtra("start",model.getStartdate());
+                    intent.putExtra("end",model.getEnddate());
+                    intent.putExtra("taskid",model.getTaskId());
+                    context.startActivity(intent);
                 }
             });
         } catch (ParseException e) {

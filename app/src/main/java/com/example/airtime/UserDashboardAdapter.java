@@ -56,6 +56,7 @@ public class UserDashboardAdapter extends RecyclerView.Adapter<UserDashboardAdap
                 intent.putExtra("name",model.getTitle());
                 intent.putExtra("start",model.getStartdate());
                 intent.putExtra("end",model.getEnddate());
+                intent.putExtra("taskid",model.getTaskId());
                 context.startActivity(intent);
             }
         });

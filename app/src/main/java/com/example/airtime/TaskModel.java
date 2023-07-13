@@ -3,14 +3,12 @@ package com.example.airtime;
 import java.util.List;
 
 public class TaskModel {
-    private String title,description, department,startdate,enddate,taskdate,taskId,s_desc,assigned_to;
-    private String status,uid;
-    private List<String> memberUrl;
+    private String title,description, department,startdate,enddate,taskdate,taskId,s_desc,status,uid;
 
     public TaskModel() {
     }
 
-    public TaskModel(String title, String description, String department, String startdate, String enddate, String taskdate, String taskId, String s_desc, String assigned_to, String status, String uid, List<String> memberUrl) {
+    public TaskModel(String title, String description, String department, String startdate, String enddate, String taskdate, String taskId, String s_desc, String status, String uid) {
         this.title = title;
         this.description = description;
         this.department = department;
@@ -19,18 +17,8 @@ public class TaskModel {
         this.taskdate = taskdate;
         this.taskId = taskId;
         this.s_desc = s_desc;
-        this.assigned_to = assigned_to;
         this.status = status;
         this.uid = uid;
-        this.memberUrl = memberUrl;
-    }
-
-    public List<String> getMemberUrl() {
-        return memberUrl;
-    }
-
-    public void setMemberUrl(List<String> memberUrl) {
-        this.memberUrl = memberUrl;
     }
 
     public String getTitle() {
@@ -95,14 +83,6 @@ public class TaskModel {
 
     public void setS_desc(String s_desc) {
         this.s_desc = s_desc;
-    }
-
-    public String getAssigned_to() {
-        return assigned_to;
-    }
-
-    public void setAssigned_to(String assigned_to) {
-        this.assigned_to = assigned_to;
     }
 
     public String getStatus() {

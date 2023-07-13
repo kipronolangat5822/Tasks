@@ -161,7 +161,7 @@
                             android:id="@+id/avail_show"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Availability"
+                            android:text="Priority"
                             android:textColor="@android:color/black"
                             android:textSize="18sp"
                             android:textStyle="bold" />
@@ -224,7 +224,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:backgroundTint="@color/white"
-            android:text="ASSIGN"
+            android:text="View"
             android:layout_marginBottom="10dp"
             android:drawableRight="@drawable/ic_baseline_keyboard_double_arrow_right_24"
             android:textColor="@android:color/black"

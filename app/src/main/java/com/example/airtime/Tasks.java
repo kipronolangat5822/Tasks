@@ -303,25 +303,22 @@ public class Tasks extends AppCompatActivity {
                 dateno = String.valueOf(LocalDate.now().getDayOfMonth());
             }
             loading.show();
-            String assign = "unassigned";
-            String status = "unassigned";
-            List<String> memberurl=new ArrayList<>();
-            memberurl.add("kkkkkkkk");
+            String status = "pending";
             String userid = mAuth.getCurrentUser().getUid();
-            TaskModel model = new TaskModel(tasktitle, taskdesc, category, start, end, date, taskId, s_description, assign, status, userid,memberurl);
+            TaskModel model = new TaskModel(tasktitle, taskdesc, category, start, end, date, taskId, s_description, status, userid);
             reference.child(taskId).setValue(model).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull com.google.android.gms.tasks.Task<Void> task) {
                     if (task.isSuccessful()){
-                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("usertask").child(mAuth.getCurrentUser().getUid()).child(taskId);
-                    ref.setValue(model);
-                    Toast.makeText(Tasks.this, "Task created successfully", Toast.LENGTH_SHORT).show();
-                        setTaskReminder(endDate, taskId);
-                    loading.dismiss();
-                    Intent intent = new Intent(Tasks.this, TaskDashBoard.class);
-                    startActivity(intent);
-                    finish();
-                }
+                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("usertask").child(mAuth.getCurrentUser().getUid()).child(taskId);
+                        ref.setValue(model);
+                        Toast.makeText(Tasks.this, "Task created successfully", Toast.LENGTH_SHORT).show();
+
+                        loading.dismiss();
+                        Intent intent = new Intent(Tasks.this, TaskDashBoard.class);
+                        startActivity(intent);
+                        finish();
+                    }
                     else
                     {
                         loading.dismiss();
@@ -330,31 +327,6 @@ public class Tasks extends AppCompatActivity {
             });
         }
 
-    }
-
-    private void setTaskReminder(Date endDate, String taskId) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(endDate);
-
-        // Create an intent for the reminder
-        Intent alarmIntent = new Intent(this, TaskReminderReceiver.class);
-        alarmIntent.putExtra("task_id", taskId);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        // Get the AlarmManager service
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-
-        // Set the reminder
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            // Use setExactAndAllowWhileIdle for Android Marshmallow (API 23) and above
-            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            // Use setExact for Android KitKat (API 19) and above
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-        } else {
-            // Use set for older Android versions
-            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-        }
     }
 
 }
