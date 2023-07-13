@@ -3,8 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/User/StudioProjects/Tasking/app/src/main/res/layout/activity_login.xml" value="0.21574074074074073" />
+        <entry key="..\:/Users/User/StudioProjects/Tasking/app/src/main/res/layout/activity_notifications.xml" value="0.21574074074074073" />
+        <entry key="..\:/Users/User/StudioProjects/Tasking/app/src/main/res/layout/activity_otp_verification.xml" value="0.21574074074074073" />
         <entry key="..\:/Users/User/StudioProjects/Tasking/app/src/main/res/layout/activity_reminder.xml" value="0.21574074074074073" />
         <entry key="..\:/Users/User/StudioProjects/Tasking/app/src/main/res/layout/activity_task_dash_board.xml" value="0.21574074074074073" />
+        <entry key="..\:/Users/User/StudioProjects/Tasking/app/src/main/res/layout/activity_view_all_activities.xml" value="0.11197916666666667" />
         <entry key="..\:/Users/User/StudioProjects/Tasking/app/src/main/res/layout/notification_layout.xml" value="0.21574074074074073" />
         <entry key="..\:/Users/User/StudioProjects/Tasking/app/src/main/res/layout/tasklist.xml" value="0.25416666666666665" />
       </map>

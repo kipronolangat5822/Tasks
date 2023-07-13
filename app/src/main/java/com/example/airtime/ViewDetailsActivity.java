@@ -3,6 +3,8 @@ package com.example.airtime;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -17,6 +19,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Calendar;
 
 public class ViewDetailsActivity extends AppCompatActivity {
     TextView name, urgency, start, end, dep, to, status;
@@ -53,12 +57,12 @@ public class ViewDetailsActivity extends AppCompatActivity {
         status.setText(stu);
         dep.setText(de);
         to.setText(descc);
-        RadioGroup radioGroup = findViewById(R.id.radioGroup);
+       /* RadioGroup radioGroup = findViewById(R.id.radioGroup);
         int selectedRadioButtonId = radioGroup.getCheckedRadioButtonId();
         RadioButton selectedRadioButton = findViewById(selectedRadioButtonId);
+        String statuss = "pending";
+        if (selectedRadioButton != null) {
 
-    /*    if (selectedRadioButton != null) {
-            String statuss = "";
             String selectedText = selectedRadioButton.getText().toString();
             if (selectedText.equals("Option 1")) {
                 statuss = "Completed";
@@ -67,12 +71,10 @@ public class ViewDetailsActivity extends AppCompatActivity {
             } else if (selectedText.equals("Option 3")) {
                 statuss = "Pending";
             }
-
-            status.setText(statuss);
-        }*//*
+        }
         FirebaseAuth mAuth=FirebaseAuth.getInstance();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("alltasks");
-        reference.child(taskId).child("status").setValue(status.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+        reference.child(taskId).child("status").setValue(statuss).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull com.google.android.gms.tasks.Task<Void> task) {
                 if (task.isSuccessful()) {
@@ -89,9 +91,6 @@ public class ViewDetailsActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-             /*   String date = "13-07-2023";
-                String time = "03:02";
-                ReminderUtils.setReminder(getApplicationContext(), date, time);*/
                 Intent intent=new Intent(ViewDetailsActivity.this, TaskDashBoard.class);
                 startActivity(intent);
                 finish();

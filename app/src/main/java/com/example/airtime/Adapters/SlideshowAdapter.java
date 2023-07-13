@@ -11,17 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
-import com.example.airtime.LoginActivity;
-import com.example.airtime.MainActivity;
-import com.example.airtime.MainActivity2;
-import com.example.airtime.ProfileActivity;
 import com.example.airtime.R;
-import com.example.airtime.SlideshowActivity;
 import com.example.airtime.TaskDashBoard;
-import com.example.airtime.Trial;
-import com.example.airtime.WelcomePage;
-
-import org.w3c.dom.Text;
 
 public class SlideshowAdapter extends PagerAdapter {
 

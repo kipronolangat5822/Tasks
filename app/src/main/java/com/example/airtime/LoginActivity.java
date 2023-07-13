@@ -59,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
         if (mAuth.getCurrentUser()!=null){
             String emm=mAuth.getCurrentUser().getEmail();
 
-            Intent intent=new Intent(LoginActivity.this, AllTasks.class);
+            Intent intent=new Intent(LoginActivity.this, TaskDashBoard.class);
             startActivity(intent);
             finish();
 
