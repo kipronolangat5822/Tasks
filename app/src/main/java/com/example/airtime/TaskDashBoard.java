@@ -34,20 +34,22 @@ public class TaskDashBoard extends AppCompatActivity {
     ProgressDialog loading;
     Query references;
     FirebaseAuth mAuth;
-    TextView hello,complete,progress,overdue;
-
-
+    TextView hello,card1,card2,card3,textView;
+    int pendingTasksCount = 0;
+    int completeTasksCount = 0;
+    int overdueTasksCount = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_dash_board);
         recyclerView = findViewById(R.id.recycler_view);
         loading = new ProgressDialog(this);
+        textView=findViewById(R.id.text_right);
         mAuth = FirebaseAuth.getInstance();
         hello=findViewById(R.id.text_name);
-        complete=findViewById(R.id.text_card1_number);
-        progress=findViewById(R.id.text_card2_number);
-        overdue=findViewById(R.id.text_card3_number);
+        card1=findViewById(R.id.text_card1_number);
+        card2=findViewById(R.id.text_card2_number);
+        card3=findViewById(R.id.text_card3_number);
         String uuid=mAuth.getCurrentUser().getUid();
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(uuid);
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -63,9 +65,17 @@ public class TaskDashBoard extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
+textView.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        Intent intent=new Intent(getApplicationContext(),AllTasks.class);
+        startActivity(intent);
 
 
-        //  final BottomNavigationView navigationView = (BottomNavigationView) findViewById(R.id.navigation);
+    }
+});
+
+         final BottomNavigationView navigationView = (BottomNavigationView) findViewById(R.id.navigation);
 
 
         recyclerView.setHasFixedSize(true);
@@ -73,7 +83,7 @@ public class TaskDashBoard extends AppCompatActivity {
         list = new ArrayList<>();
         adapter = new UserDashboardAdapter(this, list);
         recyclerView.setAdapter(adapter);
-      /*  recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+      recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 if (newState == 0) {
                     navigationView.setVisibility(View.VISIBLE);
@@ -86,24 +96,31 @@ public class TaskDashBoard extends AppCompatActivity {
                     navigationView.setVisibility(View.GONE);
                 }
             }
-        });*/
+        });
         this.loading.show();
         references = FirebaseDatabase.getInstance().getReference("usertask").child(mAuth.getCurrentUser().getUid());
         this.references.addValueEventListener(new ValueEventListener() {
             public void onDataChange(DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     loading.dismiss();
-                    list.add((TaskModel) dataSnapshot.getValue(TaskModel.class));
+                    TaskModel task = dataSnapshot.getValue(TaskModel.class);
+                    list.add(task);
+                    if (task.getStatus().equals("pending")) {
+                        pendingTasksCount++;
+                    }
+                    if (task.getStatus().equals("complete")) {
+                        completeTasksCount++;
+                    }
+                    if (task.getStatus().equals("overdue")) {
+                        overdueTasksCount++;
+                    }
+
+
                 }
                 adapter.notifyDataSetChanged();
-              /*  if (UserDashboard.this.list.size() == 0) {
-                    Toast.makeText(UserDashboard.this, "No tasks", Toast.LENGTH_SHORT).show();
-                    loading.dismiss();
-                }
-                int total = 0;
-                for (int i = 0; i < UserDashboard.this.list.size(); i++) {
-                    total++;
-                }*/
+                        card2.setText(String.valueOf(pendingTasksCount));
+                        card1.setText(String.valueOf(completeTasksCount));
+                        card3.setText(String.valueOf(overdueTasksCount));
             }
 
             public void onCancelled(DatabaseError error) {
@@ -111,19 +128,15 @@ public class TaskDashBoard extends AppCompatActivity {
                 Toast.makeText(TaskDashBoard.this, "Error", Toast.LENGTH_SHORT).show();
             }
         });
-        ((BottomNavigationView) findViewById(R.id.navigation)).setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+       ((BottomNavigationView) findViewById(R.id.navigation)).setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             public boolean onNavigationItemSelected(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_profile:
                         startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                         finish();
                         return false;
-                    case R.id.action_home:
-                        startActivity(new Intent(getApplicationContext(), AllTasks.class));
-                        finish();
-                        return false;
                     case R.id.settings:
-                        startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                        startActivity(new Intent(getApplicationContext(), Notifications.class));
                         finish();
                         return false;
                     case R.id.task:

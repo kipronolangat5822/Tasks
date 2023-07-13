@@ -37,7 +37,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -60,7 +59,6 @@ public class Tasks extends AppCompatActivity {
     FirebaseAuth mAuth;
     AlertDialog.Builder builds;
     ProgressDialog loading;
-    String timeTonotify;
     private static final String CHANNEL_ID = "task_channel";
     private static final int NOTIFICATION_ID = 1;
     private NotificationManager notificationManager;
@@ -305,26 +303,22 @@ public class Tasks extends AppCompatActivity {
                 dateno = String.valueOf(LocalDate.now().getDayOfMonth());
             }
             loading.show();
-            String status = "progress";
-            List<String> memberurl=new ArrayList<>();
-            memberurl.add("kkkkkkkk");
+            String status = "pending";
             String userid = mAuth.getCurrentUser().getUid();
-            TaskModel model = new TaskModel(tasktitle, taskdesc, category, start, end, date, taskId, s_description, status, userid,memberurl);
-
-setAlarm(tasktitle,end,end);
+            TaskModel model = new TaskModel(tasktitle, taskdesc, category, start, end, date, taskId, s_description, status, userid);
             reference.child(taskId).setValue(model).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull com.google.android.gms.tasks.Task<Void> task) {
                     if (task.isSuccessful()){
-                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("usertask").child(mAuth.getCurrentUser().getUid()).child(taskId);
-                    ref.setValue(model);
-                    Toast.makeText(Tasks.this, "Task created successfully", Toast.LENGTH_SHORT).show();
-                       /* setTaskReminder(endDate, taskId);*/
-                    loading.dismiss();
-                    Intent intent = new Intent(Tasks.this, TaskDashBoard.class);
-                    startActivity(intent);
-                    finish();
-                }
+                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("usertask").child(mAuth.getCurrentUser().getUid()).child(taskId);
+                        ref.setValue(model);
+                        Toast.makeText(Tasks.this, "Task created successfully", Toast.LENGTH_SHORT).show();
+
+                        loading.dismiss();
+                        Intent intent = new Intent(Tasks.this, TaskDashBoard.class);
+                        startActivity(intent);
+                        finish();
+                    }
                     else
                     {
                         loading.dismiss();
@@ -334,49 +328,5 @@ setAlarm(tasktitle,end,end);
         }
 
     }
-    private void setAlarm(String text, String date, String time) {
-        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);                   //assigning alarm manager object to set alarm
-        Intent intent = new Intent(getApplicationContext(), AlarmBroadcast.class);
-        intent.putExtra("event", text);                                                       //sending data to alarm class to create channel and notification
-        intent.putExtra("time", date);
-        intent.putExtra("date", time);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_ONE_SHOT);
-        String dateandtime = date + " " + timeTonotify;
-        DateFormat formatter = new SimpleDateFormat("d-M-yyyy hh:mm");
-        try {
-            Date date1 = formatter.parse(dateandtime);
-            am.set(AlarmManager.RTC_WAKEUP, date1.getTime(), pendingIntent);
-            Toast.makeText(getApplicationContext(), "Alarm", Toast.LENGTH_SHORT).show();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Intent intentBack = new Intent(getApplicationContext(), MainActivity.class);                //this intent will be called once the setting alarm is complete
-        intentBack.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intentBack);                                                                  //navigates from adding reminder activity to mainactivity
-    }
-    /*private void setTaskReminder(Date endDate, String taskId) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(endDate);
-
-        // Create an intent for the reminder
-        Intent alarmIntent = new Intent(this, TaskReminderReceiver.class);
-        alarmIntent.putExtra("task_id", taskId);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        // Get the AlarmManager service
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-
-        // Set the reminder
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            // Use setExactAndAllowWhileIdle for Android Marshmallow (API 23) and above
-            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            // Use setExact for Android KitKat (API 19) and above
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-        } else {
-            // Use set for older Android versions
-            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-        }
-    }*/
 
 }

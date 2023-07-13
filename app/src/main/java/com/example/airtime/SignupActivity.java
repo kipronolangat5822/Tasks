@@ -96,7 +96,7 @@ public class SignupActivity extends AppCompatActivity {
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
-                                                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                                Intent intent = new Intent(getApplicationContext(), AllTasks.class);
                                                 startActivity(intent);
                                                 finish();
                                             }

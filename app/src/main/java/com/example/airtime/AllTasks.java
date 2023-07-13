@@ -35,14 +35,14 @@ public class AllTasks extends AppCompatActivity {
         recyclerView=findViewById(R.id.recyclerview);
         loading = new ProgressDialog(this);
         vail=findViewById(R.id.avail);
-      //  final BottomNavigationView navigationView = (BottomNavigationView) findViewById(R.id.navigation);
+       final BottomNavigationView navigationView = (BottomNavigationView) findViewById(R.id.navigation);
         reference = FirebaseDatabase.getInstance().getReference("alltasks");
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         list = new ArrayList<>();
         adapter = new ViewAllAdapter(this,list);
         recyclerView.setAdapter(adapter);
-        /*recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 if (newState == 0) {
                     navigationView.setVisibility(View.VISIBLE);
@@ -55,7 +55,7 @@ public class AllTasks extends AppCompatActivity {
                     navigationView.setVisibility(View.GONE);
                 }
             }
-        });*/
+        });
         this.loading.show();
         this.reference.addValueEventListener(new ValueEventListener() {
             public void onDataChange(DataSnapshot snapshot) {
@@ -79,29 +79,29 @@ public class AllTasks extends AppCompatActivity {
                 Toast.makeText(AllTasks.this, "Error", Toast.LENGTH_SHORT).show();
             }
         });
-/*        ((BottomNavigationView) findViewById(R.id.navigation)).setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        ((BottomNavigationView) findViewById(R.id.navigation)).setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             public boolean onNavigationItemSelected(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_profile:
-                        startActivity(new Intent(getApplicationContext(), AllTasks.class));
+                        startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                         finish();
                         return false;
                     case R.id.action_home:
-                        startActivity(new Intent(getApplicationContext(), AdminDashboard.class));
+                        startActivity(new Intent(getApplicationContext(), AllTasks.class));
                         finish();
                         return false;
                     case R.id.settings:
-                        startActivity(new Intent(getApplicationContext(), SplashScreen.class));
+                        startActivity(new Intent(getApplicationContext(), Notifications.class));
                         finish();
                         return false;
                     case R.id.task:
-                        startActivity(new Intent(getApplicationContext(), ViewAllWorkers.class));
+                        startActivity(new Intent(getApplicationContext(), Tasks.class));
                         finish();
                         return false;
                     default:
                         return false;
                 }
             }
-        });*/
+        });
     }
 }

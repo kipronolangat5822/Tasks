@@ -32,7 +32,6 @@ public class SlideshowActivity extends AppCompatActivity {
         nextButton = findViewById(R.id.nextButton);
         FirebaseAuth mAuth=FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser()!=null){
-            String emm=mAuth.getCurrentUser().getEmail();
 
             Intent intent=new Intent(SlideshowActivity.this, TaskDashBoard.class);
             startActivity(intent);

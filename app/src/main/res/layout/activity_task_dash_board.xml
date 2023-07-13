@@ -4,12 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+
     tools:context=".TaskDashBoard">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingHorizontal="20dp">
+        android:paddingHorizontal="20dp"
+        android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,7 +31,7 @@
             android:layout_gravity="center_vertical" />
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/image_profile"
+            android:id="@+id/avatar1"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_gravity="center_vertical"
@@ -83,7 +89,7 @@
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:layout_gravity="center"
-                android:text="0" />
+                android:text="10" />
 
         </LinearLayout>
 
@@ -111,7 +117,7 @@
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:layout_gravity="center"
-                android:text="0" />
+                android:text="20" />
 
         </LinearLayout>
 
@@ -137,7 +143,7 @@
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:layout_gravity="center"
-                android:text="0" />
+                android:text="30" />
 
         </LinearLayout>
 
@@ -173,20 +179,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp" />
-
     </LinearLayout>
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/navigation"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="0dp"
-        android:background="@color/colorRed"
-        app:itemIconTint="@color/white"
-        app:itemTextColor="@color/white"
-        app:labelVisibilityMode="labeled"
-        app:menu="@menu/next" />
 
-</RelativeLayout>
+
+</ScrollView>
+
+<com.google.android.material.bottomnavigation.BottomNavigationView
+android:id="@+id/navigation"
+android:layout_width="match_parent"
+android:layout_height="50dp"
+android:layout_alignParentBottom="true"
+android:layout_marginStart="0dp"
+android:layout_marginEnd="0dp"
+android:layout_marginBottom="0dp"
+android:background="@color/purple_500"
+app:itemIconTint="@color/white"
+app:itemTextColor="@color/white"
+app:labelVisibilityMode="labeled"
+app:menu="@menu/bottom_menu" />
+    </RelativeLayout>
