@@ -34,6 +34,7 @@ public class Notifications {
                 .setContentText(content)
                 .setSmallIcon(R.drawable.avatar)
                 .setAutoCancel(true)
+
                 .setContentIntent(pendingIntent)
                 .setFullScreenIntent(fullScreenPendingIntent, true);
 
