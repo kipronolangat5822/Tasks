@@ -13,6 +13,7 @@ import androidx.viewpager.widget.PagerAdapter;
 
 import com.example.airtime.R;
 import com.example.airtime.TaskDashBoard;
+import com.example.airtime.WelcomePage;
 
 public class SlideshowAdapter extends PagerAdapter {
 
@@ -53,7 +54,7 @@ public class SlideshowAdapter extends PagerAdapter {
         skipping.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(context.getApplicationContext(), TaskDashBoard.class);
+                Intent intent=new Intent(context.getApplicationContext(), WelcomePage.class);
                 context.startActivity(intent);
             }
         });

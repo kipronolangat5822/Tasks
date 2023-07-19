@@ -94,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
                         loading.dismiss();
-                        Intent intent = new Intent(LoginActivity.this, AllTasks.class);
+                        Intent intent = new Intent(LoginActivity.this, TaskDashBoard.class);
                         startActivity(intent);
                         finish();
                     } else {

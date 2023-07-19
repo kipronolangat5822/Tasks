@@ -1,14 +1,11 @@
 package com.example.airtime;
 
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.telephony.SmsManager;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -29,9 +26,6 @@ public class SignupActivity extends AppCompatActivity {
     private ImageView backbtn;
     private FirebaseAuth mAuth;
     ProgressDialog loading;
-    private EditText otpEditText;
-    private String verificationId;
-    private boolean isOTPVerified;
 
 
 
@@ -88,6 +82,7 @@ public class SignupActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
+                                loading.dismiss();
                                 String uuid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                                 User user = new User(username, emailaddress, phoneNumber, uuid);
 
@@ -102,6 +97,7 @@ public class SignupActivity extends AppCompatActivity {
                                             }
                                         });
                             } else {
+                                loading.dismiss();
                                 String message = task.getException().toString();
                                 Toast.makeText(getApplicationContext(), "Registration failed!! Please try again later" + message, Toast.LENGTH_LONG).show();
                             }

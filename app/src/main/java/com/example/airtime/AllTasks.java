@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.airtime.Adapters.ViewAllAdapter;
+import com.example.airtime.Work.NotificationActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -65,6 +66,7 @@ public class AllTasks extends AppCompatActivity {
                 }
                 adapter.notifyDataSetChanged();
                 if (AllTasks.this.list.size() == 0) {
+                    loading.dismiss();
                     Toast.makeText(AllTasks.this, "No tasks", Toast.LENGTH_SHORT).show();
                 }
                 int total = 0;
@@ -91,7 +93,7 @@ public class AllTasks extends AppCompatActivity {
                         finish();
                         return false;
                     case R.id.settings:
-                        startActivity(new Intent(getApplicationContext(), Notifications.class));
+                        startActivity(new Intent(getApplicationContext(), NotificationActivity.class));
                         finish();
                         return false;
                     case R.id.task:

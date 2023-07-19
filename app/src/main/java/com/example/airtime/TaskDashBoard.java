@@ -3,6 +3,7 @@ package com.example.airtime;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -13,19 +14,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.airtime.Work.MainActivity;
+import com.example.airtime.Work.NotificationActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class TaskDashBoard extends AppCompatActivity {
     RecyclerView recyclerView;
@@ -38,6 +38,7 @@ public class TaskDashBoard extends AppCompatActivity {
     int pendingTasksCount = 0;
     int completeTasksCount = 0;
     int overdueTasksCount = 0;
+    private  boolean hasData = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +52,13 @@ public class TaskDashBoard extends AppCompatActivity {
         card2=findViewById(R.id.text_card2_number);
         card3=findViewById(R.id.text_card3_number);
         String uuid=mAuth.getCurrentUser().getUid();
+        card1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(uuid);
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -97,30 +105,41 @@ textView.setOnClickListener(new View.OnClickListener() {
                 }
             }
         });
-        this.loading.show();
+
+        loading.show();
+
         references = FirebaseDatabase.getInstance().getReference("usertask").child(mAuth.getCurrentUser().getUid());
         this.references.addValueEventListener(new ValueEventListener() {
             public void onDataChange(DataSnapshot snapshot) {
+                list.clear();
+                pendingTasksCount = 0;
+                completeTasksCount = 0;
+                overdueTasksCount = 0;
+
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    loading.dismiss();
                     TaskModel task = dataSnapshot.getValue(TaskModel.class);
                     list.add(task);
                     if (task.getStatus().equals("pending")) {
                         pendingTasksCount++;
-                    }
-                    if (task.getStatus().equals("complete")) {
+                    } else if (task.getStatus().equals("complete")) {
                         completeTasksCount++;
-                    }
-                    if (task.getStatus().equals("overdue")) {
+                    } else if (task.getStatus().equals("overdue")) {
                         overdueTasksCount++;
                     }
-
-
+                    hasData = true;
+                    loading.dismiss();
                 }
+
                 adapter.notifyDataSetChanged();
-                        card2.setText(String.valueOf(pendingTasksCount));
-                        card1.setText(String.valueOf(completeTasksCount));
-                        card3.setText(String.valueOf(overdueTasksCount));
+                card2.setText(String.valueOf(pendingTasksCount));
+                card1.setText(String.valueOf(completeTasksCount));
+                card3.setText(String.valueOf(overdueTasksCount));
+                new Handler().postDelayed(() -> {
+                    if (!hasData) {
+                        loading.dismiss();
+                        Toast.makeText(TaskDashBoard.this, "There are No Tasks", Toast.LENGTH_SHORT).show();
+                    }
+                }, 5000);
             }
 
             public void onCancelled(DatabaseError error) {
@@ -128,20 +147,18 @@ textView.setOnClickListener(new View.OnClickListener() {
                 Toast.makeText(TaskDashBoard.this, "Error", Toast.LENGTH_SHORT).show();
             }
         });
-       ((BottomNavigationView) findViewById(R.id.navigation)).setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        ((BottomNavigationView) findViewById(R.id.navigation)).setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             public boolean onNavigationItemSelected(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_profile:
                         startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
-                        finish();
                         return false;
                     case R.id.settings:
-                        startActivity(new Intent(getApplicationContext(), Notifications.class));
-                        finish();
+                        startActivity(new Intent(getApplicationContext(), NotificationActivity.class));
                         return false;
                     case R.id.task:
                         startActivity(new Intent(getApplicationContext(), Tasks.class));
-                        finish();
                         return false;
                     default:
                         return false;

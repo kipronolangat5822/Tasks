@@ -22,10 +22,10 @@
         android:theme="@style/Theme.Airtime"
         tools:targetApi="31">
         <activity
-            android:name=".NotificationsActivity"
+            android:name=".Work.NotificationActivity"
             android:exported="false" />
 
-        <receiver android:name=".NotificationReceiver" />
+        <receiver android:name=".Work.NotificationReceiver" />
 
         <activity
             android:name=".AllTasks"
@@ -36,13 +36,6 @@
         </activity>
         <activity
             android:name=".ViewDetailsActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".Notifications"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -114,12 +107,16 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".Work.MainActivity"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+        <receiver
+            android:name=".Work.MyReceiver"
+            android:enabled="true"
+            android:exported="false" />
     </application>
 
 </manifest>

@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import com.example.airtime.Work.NotificationHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -33,6 +34,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class Tasks extends AppCompatActivity {
     EditText title, description;
@@ -238,6 +240,11 @@ public class Tasks extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
     private void randomString() {
         String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 + "0123456789"
@@ -302,7 +309,10 @@ public class Tasks extends AppCompatActivity {
                         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("usertask").child(mAuth.getCurrentUser().getUid()).child(taskId);
                         ref.setValue(model);
                         Toast.makeText(Tasks.this, "Task created successfully", Toast.LENGTH_SHORT).show();
-                        Notifications.scheduleNotification(Tasks.this, tasktitle, taskdesc, start, NOTIFICATION_ID_1);
+                       // Notifications.scheduleNotification(Tasks.this, tasktitle, taskdesc, start, NOTIFICATION_ID_1);
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy H:mm", Locale.getDefault());
+                        String currentTime = sdf.format(strDate);
+                        //NotificationHelper.showNotification(Tasks.this, tasktitle, currentTime);
                         loading.dismiss();
                         Intent intent = new Intent(Tasks.this, TaskDashBoard.class);
                         startActivity(intent);
