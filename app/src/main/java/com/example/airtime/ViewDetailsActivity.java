@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -25,6 +26,8 @@ import java.util.Calendar;
 public class ViewDetailsActivity extends AppCompatActivity {
     TextView name, urgency, start, end, dep, to, status;
     Button btn;
+    private RadioGroup radioGroup;
+    String statuss = "pending";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,41 +60,25 @@ public class ViewDetailsActivity extends AppCompatActivity {
         status.setText(stu);
         dep.setText(de);
         to.setText(descc);
-       /* RadioGroup radioGroup = findViewById(R.id.radioGroup);
-        int selectedRadioButtonId = radioGroup.getCheckedRadioButtonId();
-        RadioButton selectedRadioButton = findViewById(selectedRadioButtonId);
-        String statuss = "pending";
-        if (selectedRadioButton != null) {
-
-            String selectedText = selectedRadioButton.getText().toString();
-            if (selectedText.equals("Option 1")) {
-                statuss = "Completed";
-            } else if (selectedText.equals("Option 2")) {
-                statuss = "Progress";
-            } else if (selectedText.equals("Option 3")) {
-                statuss = "Pending";
-            }
-        }
-        FirebaseAuth mAuth=FirebaseAuth.getInstance();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("alltasks");
-        reference.child(taskId).child("status").setValue(statuss).addOnCompleteListener(new OnCompleteListener<Void>() {
+        radioGroup = findViewById(R.id.radioGroup);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onComplete(@NonNull com.google.android.gms.tasks.Task<Void> task) {
-                if (task.isSuccessful()) {
-                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("usertask").child(mAuth.getCurrentUser().getUid()).child(taskId);
-                    ref.child("status").setValue(status.getText().toString());
-                    Intent intent = new Intent(ViewDetailsActivity.this, TaskDashBoard.class);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    Toast.makeText(ViewDetailsActivity.this, "Failed" +task.getException(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });*/
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton radioButton = findViewById(checkedId);
+                statuss = radioButton.getText().toString();
+                FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                DatabaseReference allTasksReference = FirebaseDatabase.getInstance().getReference("alltasks");
+                allTasksReference.child(taskId).child("status").setValue(statuss);
+                DatabaseReference userTaskReference = FirebaseDatabase.getInstance().getReference("usertask").child(mAuth.getCurrentUser().getUid()).child(taskId);
+                userTaskReference.child("status").setValue(statuss);
+                Toast.makeText(ViewDetailsActivity.this, "Task is "+statuss, Toast.LENGTH_SHORT).show(); }
+        });
+
+
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(ViewDetailsActivity.this, TaskDashBoard.class);
+                Intent intent = new Intent(ViewDetailsActivity.this, TaskDashBoard.class);
                 startActivity(intent);
                 finish();
             }

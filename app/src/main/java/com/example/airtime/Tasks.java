@@ -1,7 +1,9 @@
 package com.example.airtime;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
@@ -20,6 +22,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import com.example.airtime.Work.MainActivity;
+import com.example.airtime.Work.MyReceiver;
 import com.example.airtime.Work.NotificationHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -309,10 +313,8 @@ public class Tasks extends AppCompatActivity {
                         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("usertask").child(mAuth.getCurrentUser().getUid()).child(taskId);
                         ref.setValue(model);
                         Toast.makeText(Tasks.this, "Task created successfully", Toast.LENGTH_SHORT).show();
-                       // Notifications.scheduleNotification(Tasks.this, tasktitle, taskdesc, start, NOTIFICATION_ID_1);
-                        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy H:mm", Locale.getDefault());
-                        String currentTime = sdf.format(strDate);
-                        //NotificationHelper.showNotification(Tasks.this, tasktitle, currentTime);
+                        setReminder(model.getStartdate(), model.getS_desc(), model.getTitle());
+
                         loading.dismiss();
                         Intent intent = new Intent(Tasks.this, TaskDashBoard.class);
                         startActivity(intent);
@@ -326,6 +328,24 @@ public class Tasks extends AppCompatActivity {
             });
         }
 
+    } private void setReminder(String time,String message,String title) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy H:mm", Locale.getDefault());
+
+        try {
+            Date date = sdf.parse(time);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+
+            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+            Intent intent = new Intent(getApplicationContext(), MyReceiver.class);
+            intent.putExtra("title", title);
+            intent.putExtra("notificationMessage", message);
+
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

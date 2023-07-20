@@ -52,13 +52,6 @@ public class TaskDashBoard extends AppCompatActivity {
         card2=findViewById(R.id.text_card2_number);
         card3=findViewById(R.id.text_card3_number);
         String uuid=mAuth.getCurrentUser().getUid();
-        card1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-            }
-        });
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(uuid);
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -109,7 +102,7 @@ textView.setOnClickListener(new View.OnClickListener() {
         loading.show();
 
         references = FirebaseDatabase.getInstance().getReference("usertask").child(mAuth.getCurrentUser().getUid());
-        this.references.addValueEventListener(new ValueEventListener() {
+        this.references.orderByChild("taskdate").addValueEventListener(new ValueEventListener() {
             public void onDataChange(DataSnapshot snapshot) {
                 list.clear();
                 pendingTasksCount = 0;
@@ -119,11 +112,11 @@ textView.setOnClickListener(new View.OnClickListener() {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     TaskModel task = dataSnapshot.getValue(TaskModel.class);
                     list.add(task);
-                    if (task.getStatus().equals("pending")) {
+                    if (task.getStatus().equalsIgnoreCase("pending")) {
                         pendingTasksCount++;
-                    } else if (task.getStatus().equals("complete")) {
+                    } else if (task.getStatus().equalsIgnoreCase("completed")) {
                         completeTasksCount++;
-                    } else if (task.getStatus().equals("overdue")) {
+                    } else if (task.getStatus().equalsIgnoreCase("overdue")) {
                         overdueTasksCount++;
                     }
                     hasData = true;

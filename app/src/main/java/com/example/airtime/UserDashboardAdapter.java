@@ -46,6 +46,8 @@ public class UserDashboardAdapter extends RecyclerView.Adapter<UserDashboardAdap
 
         TaskModel model = this.list.get(position);
         holder.mname.setText(model.getTitle());
+        holder.mname.setText(model.getTitle());
+        holder.due_date.setText(model.getEnddate());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,10 +98,12 @@ public class UserDashboardAdapter extends RecyclerView.Adapter<UserDashboardAdap
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView mname;
+        TextView mname,desc,due,due_date;
         public MyViewHolder(View itemView) {
             super(itemView);
             this.mname = (TextView) itemView.findViewById(R.id.text_title);
+            this.desc = (TextView) itemView.findViewById(R.id.text_description);
+            this.due_date = (TextView) itemView.findViewById(R.id.due_date);
         }
     }
 }

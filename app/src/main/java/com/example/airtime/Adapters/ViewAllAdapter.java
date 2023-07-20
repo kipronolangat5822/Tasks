@@ -139,7 +139,7 @@ public class ViewAllAdapter extends RecyclerView.Adapter<ViewAllAdapter.MyViewHo
             holder.assign.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent=new Intent(context.getApplicationContext(), TaskDashBoard.class);
+                    Intent intent=new Intent(context.getApplicationContext(), ViewDetailsActivity.class);
                     intent.putExtra("id",model.getTaskId());
                     intent.putExtra("dep",model.getDepartment());
                     intent.putExtra("desc",model.getDescription());

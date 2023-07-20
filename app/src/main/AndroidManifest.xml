@@ -25,7 +25,6 @@
             android:name=".Work.NotificationActivity"
             android:exported="false" />
 
-        <receiver android:name=".Work.NotificationReceiver" />
 
         <activity
             android:name=".AllTasks"
