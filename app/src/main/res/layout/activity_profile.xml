@@ -45,7 +45,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
-                    android:text="Wiliam Snoe"
+                    android:text=""
                     android:textColor="#fff"
                     android:textSize="21sp"
                     android:textStyle="bold" />
@@ -120,41 +120,7 @@
                 android:orientation="horizontal"
                 android:paddingLeft="25dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="User:"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/profile_client"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:paddingLeft="20dp"
-                    android:text=""
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:orientation="horizontal"
-                android:paddingLeft="25dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="Id Number:"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/profile"

@@ -52,6 +52,8 @@ public class TaskDashBoard extends AppCompatActivity {
         card2=findViewById(R.id.text_card2_number);
         card3=findViewById(R.id.text_card3_number);
         String uuid=mAuth.getCurrentUser().getUid();
+        loading.setCanceledOnTouchOutside(false);
+        loading.dismiss();
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(uuid);
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

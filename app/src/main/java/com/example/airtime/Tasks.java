@@ -9,6 +9,7 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -24,8 +25,10 @@ import androidx.cardview.widget.CardView;
 
 import com.example.airtime.Work.MainActivity;
 import com.example.airtime.Work.MyReceiver;
+import com.example.airtime.Work.NotificationActivity;
 import com.example.airtime.Work.NotificationHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -45,7 +48,7 @@ public class Tasks extends AppCompatActivity {
     CardView finance, others, inquire, admin, tech;
     Button btn, st, en;
     TextView tt;
-    ImageView back, q, w, e, r, t;
+    ImageView  q, w, e, r, t;
     DatabaseReference reference, re;
     StringBuilder sb;
     String day, dateno, month;
@@ -85,16 +88,11 @@ public class Tasks extends AppCompatActivity {
         q = findViewById(R.id.q1);
         w = findViewById(R.id.q2);
         e = findViewById(R.id.q3);
-        r = findViewById(R.id.q4);
-        t = findViewById(R.id.q5);
         title = findViewById(R.id.l_title);
         description = findViewById(R.id.l_description);
-        back = findViewById(R.id.back_arrow);
         finance = findViewById(R.id.l_finance);
-        others = findViewById(R.id.l_others);
         inquire = findViewById(R.id.l_inquiries);
         admin = findViewById(R.id.l_admin);
-        tech = findViewById(R.id.l_tech);
         btn = findViewById(R.id.btn_task);
         tt = findViewById(R.id.text);
         en = findViewById(R.id.l_end);
@@ -103,13 +101,7 @@ public class Tasks extends AppCompatActivity {
         loading=new ProgressDialog(this);
 
 
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Tasks.this, TaskDashBoard.class);
-                startActivity(intent);
-            }
-        });
+
         randomString();
         st.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,56 +170,30 @@ public class Tasks extends AppCompatActivity {
         finance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tt.setText("all");
+                tt.setText("personal");
                 q.setVisibility(View.VISIBLE);
                 w.setVisibility(View.GONE);
                 e.setVisibility(View.GONE);
-                r.setVisibility(View.GONE);
-                t.setVisibility(View.GONE);
             }
         });
-        others.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                tt.setText("sports");
-                q.setVisibility(View.GONE);
-                w.setVisibility(View.GONE);
-                e.setVisibility(View.GONE);
-                r.setVisibility(View.GONE);
-                t.setVisibility(View.VISIBLE);
-            }
-        });
+
         inquire.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tt.setText("education");
+                tt.setText("school");
                 q.setVisibility(View.GONE);
                 w.setVisibility(View.VISIBLE);
                 e.setVisibility(View.GONE);
-                r.setVisibility(View.GONE);
-                t.setVisibility(View.GONE);
             }
         });
-        tech.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                tt.setText("meetings");
-                q.setVisibility(View.GONE);
-                w.setVisibility(View.GONE);
-                e.setVisibility(View.GONE);
-                r.setVisibility(View.VISIBLE);
-                t.setVisibility(View.GONE);
-            }
-        });
+
         admin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tt.setText("design");
+                tt.setText("work");
                 q.setVisibility(View.GONE);
                 w.setVisibility(View.GONE);
                 e.setVisibility(View.VISIBLE);
-                r.setVisibility(View.GONE);
-                t.setVisibility(View.GONE);
             }
         });
         btn.setOnClickListener(new View.OnClickListener() {
@@ -237,6 +203,24 @@ public class Tasks extends AppCompatActivity {
                     createTask();
                 } catch (ParseException ex) {
                     ex.printStackTrace();
+                }
+            }
+        });
+
+        ((BottomNavigationView) findViewById(R.id.navigation)).setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            public boolean onNavigationItemSelected(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_profile:
+                        startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                        return false;
+                    case R.id.settings:
+                        startActivity(new Intent(getApplicationContext(), NotificationActivity.class));
+                        return false;
+                    case R.id.action_home:
+                        startActivity(new Intent(getApplicationContext(), TaskDashBoard.class));
+                        return false;
+                    default:
+                        return false;
                 }
             }
         });

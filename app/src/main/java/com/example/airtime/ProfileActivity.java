@@ -25,7 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class ProfileActivity extends AppCompatActivity {
-    TextView email,phone,id,user,name;
+    TextView email,phone,id,name;
     FirebaseAuth mAuth;
     ProgressDialog loading;
 
@@ -33,6 +33,7 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         loading.setMessage("Loading...");
+        loading.setCanceledOnTouchOutside(false);
         loading.show();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -51,7 +52,6 @@ public class ProfileActivity extends AppCompatActivity {
                         name.setText(username);
                         email.setText(emails);
                         phone.setText(phones);
-                        user.setText("Personal");
                     }
                     else{
                         Toast.makeText(ProfileActivity.this, "Error Loading Data", Toast.LENGTH_SHORT).show();
@@ -79,7 +79,6 @@ public class ProfileActivity extends AppCompatActivity {
         phone=findViewById(R.id.profile_phonenumber);
         id=findViewById(R.id.profile);
         name=findViewById(R.id.profile_name);
-        user=findViewById(R.id.profile_client);
         ImageView im=findViewById(R.id.back_arrows);
         mAuth=FirebaseAuth.getInstance();
         loading=new ProgressDialog(this);

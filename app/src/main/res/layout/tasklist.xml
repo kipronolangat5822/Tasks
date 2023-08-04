@@ -59,11 +59,6 @@
 
         </LinearLayout>
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/image_right"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:src="@drawable/set" />
 
     </LinearLayout>
 

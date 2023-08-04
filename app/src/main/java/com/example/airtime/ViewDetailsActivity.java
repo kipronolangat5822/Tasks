@@ -8,6 +8,7 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -15,8 +16,10 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.airtime.Work.NotificationActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -55,8 +58,8 @@ public class ViewDetailsActivity extends AppCompatActivity {
 
         name.setText(nn);
         urgency.setText(uu);
-        start.setText(ss);
-        end.setText(ee);
+        start.setText(ss+"0");
+        end.setText(ee+"0");
         status.setText(stu);
         dep.setText(de);
         to.setText(descc);
@@ -84,6 +87,23 @@ public class ViewDetailsActivity extends AppCompatActivity {
             }
         });
 
+        ((BottomNavigationView) findViewById(R.id.navigation)).setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            public boolean onNavigationItemSelected(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_profile:
+                        startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                        return false;
+                    case R.id.settings:
+                        startActivity(new Intent(getApplicationContext(), NotificationActivity.class));
+                        return false;
+                    case R.id.action_home:
+                        startActivity(new Intent(getApplicationContext(), TaskDashBoard.class));
+                        return false;
+                    default:
+                        return false;
+                }
+            }
+        });
 
     }
 }

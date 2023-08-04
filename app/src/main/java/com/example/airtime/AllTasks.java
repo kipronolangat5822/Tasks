@@ -43,6 +43,7 @@ public class AllTasks extends AppCompatActivity {
         list = new ArrayList<>();
         adapter = new ViewAllAdapter(this,list);
         recyclerView.setAdapter(adapter);
+        loading.setCanceledOnTouchOutside(false);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 if (newState == 0) {
@@ -89,7 +90,7 @@ public class AllTasks extends AppCompatActivity {
                         finish();
                         return false;
                     case R.id.action_home:
-                        startActivity(new Intent(getApplicationContext(), AllTasks.class));
+                        startActivity(new Intent(getApplicationContext(), TaskDashBoard.class));
                         finish();
                         return false;
                     case R.id.settings:
